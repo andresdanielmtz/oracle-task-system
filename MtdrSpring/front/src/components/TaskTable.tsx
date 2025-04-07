@@ -59,7 +59,8 @@ const TaskTable = ({ tasks, users, handleEdit, handleStateChange }: TaskTablePro
 
   const getUserName = (userId: number) => {
     const user = users.find((u) => u.id_User === userId);
-    return user ? user.name : "Unassigned";
+    if (user) return user.name;
+    return "Unassigned";
   };
 
   const getStateColor = (state: string) => {
@@ -173,7 +174,7 @@ const TaskTable = ({ tasks, users, handleEdit, handleStateChange }: TaskTablePro
       <Dialog open={openDialog} onClose={handleDialogClose}>
         <DialogTitle>{selectedTask?.state === "DONE" ? "Modify Real Hours" : "Task Marked as Done"}</DialogTitle>
         <DialogContent>
-          <p>The task "{taskName}" has been {selectedTask?.state === "DONE" ? "reopened" : "marked as DONE"}.</p>
+          <p>The task &quot;{taskName}&quot; has been {selectedTask?.state === "DONE" ? "reopened" : "marked as DONE"}.</p>
           <TextField
             label="Real Hours Worked"
             type="number"
