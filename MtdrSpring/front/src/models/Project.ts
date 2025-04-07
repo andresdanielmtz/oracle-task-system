@@ -1,4 +1,3 @@
-
 /*
     * Project model 
     * This model represents a project in the system.
@@ -6,7 +5,7 @@
     
 */
 export interface Project {
-    id: string;
-    name: string;
-    description: string;
+  id: string;
+  name: string;
+  description: string;
 }
