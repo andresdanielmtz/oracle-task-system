@@ -5,7 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.MyTodoList.model.Project;
 import com.springboot.MyTodoList.service.ProjectService;
@@ -30,7 +37,7 @@ public class ProjectController {
     public ResponseEntity<Project> getProjectById(@PathVariable int id) {
         try {
             ResponseEntity<Project> responseEntity = projectService.getItemById(id);
-            return new ResponseEntity<Project>(responseEntity.getBody(), HttpStatus.OK);
+            return new ResponseEntity<>(responseEntity.getBody(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -38,7 +45,7 @@ public class ProjectController {
 
     // Create new project endpoint.
     @PostMapping
-    public ResponseEntity addNewProject(@RequestBody Project new_project)
+    public ResponseEntity<Project> addNewProject(@RequestBody Project new_project)
             throws Exception {
         Project project = projectService.addProject(new_project);
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -50,7 +57,7 @@ public class ProjectController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateProject(@RequestBody Project project, @PathVariable int id) {
+    public ResponseEntity<Project> updateProject(@RequestBody Project project, @PathVariable int id) {
         try {
             Project project1 = projectService.updateProject(id, project);
             System.out.println(project1.toString());
@@ -61,7 +68,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteProject(@PathVariable int id) {
+    public ResponseEntity<Project> deleteProject(@PathVariable int id) {
         try {
             projectService.deleteProject(id);
             return new ResponseEntity<>(HttpStatus.OK);
