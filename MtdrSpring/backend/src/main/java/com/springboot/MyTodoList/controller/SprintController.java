@@ -54,9 +54,9 @@ public class SprintController {
     @PutMapping("/{id}")
     public ResponseEntity<Sprint> updateSprint(@RequestBody Sprint sprint, @PathVariable int id) {
         try {
-            Sprint sprint1 = sprintService.updateSprint(id, sprint);
-            System.out.println(sprint1.toString());
-            return new ResponseEntity<>(sprint1, HttpStatus.OK);
+            Sprint sprintUpdated = sprintService.updateSprint(id, sprint);
+            System.out.println(sprintUpdated.toString());
+            return new ResponseEntity<>(sprintUpdated, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
