@@ -10,7 +10,7 @@
     "format": "prettier --write .",
     "preview": "vite preview",
     "test": "echo \"No tests specified\"",
-    "prepare": "husky"
+    "prepare": "cd .. && husky front/.husky"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
