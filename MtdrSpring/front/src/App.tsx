@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { Button, CircularProgress, Select, MenuItem, InputLabel, FormControl } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 import "./App.css";
 import { getTasks, updateTask, deleteTask } from "./api/task";
 import { getUsers } from "./api/user";
@@ -36,8 +43,8 @@ function App() {
         ]);
         setTasks(
           tasksData.sort((a: Task, b: Task) =>
-            a.description.localeCompare(b.description)
-          )
+            a.description.localeCompare(b.description),
+          ),
         );
         setUsers(usersData);
         setSprints(sprintsData.sort((a, b) => a.name.localeCompare(b.name)));
@@ -59,8 +66,8 @@ function App() {
         const tasksData = await getTasks();
         setTasks(
           tasksData.sort((a: Task, b: Task) =>
-            a.description.localeCompare(b.description)
-          )
+            a.description.localeCompare(b.description),
+          ),
         );
       } catch (error) {
         console.error(error);
@@ -71,7 +78,11 @@ function App() {
     }
   };
 
-  const handleStateChange = async (task: Task, newState: string, hrsReales: number) => {
+  const handleStateChange = async (
+    task: Task,
+    newState: string,
+    hrsReales: number,
+  ) => {
     try {
       const updatedTask = { ...task, state: newState, hoursReal: hrsReales };
       await updateTask(task.id_Task, updatedTask);
@@ -79,14 +90,14 @@ function App() {
         prevTasks
           .map((t) => (t.id_Task === task.id_Task ? updatedTask : t))
           .sort((a: Task, b: Task) =>
-            a.description.localeCompare(b.description)
-          )
+            a.description.localeCompare(b.description),
+          ),
       );
     } catch (error) {
       console.error(error);
       setError("Error updating task state");
     }
-  }
+  };
 
   const handleEdit = async (task: Task) => {
     console.log("Edit task:", task);
@@ -99,8 +110,8 @@ function App() {
         prevTasks
           .filter((t) => t.id_Task !== id)
           .sort((a: Task, b: Task) =>
-            a.description.localeCompare(b.description)
-          )
+            a.description.localeCompare(b.description),
+          ),
       );
     } catch (error) {
       console.error(error);
@@ -121,8 +132,8 @@ function App() {
       const tasksData = await getTasks();
       setTasks(
         tasksData.sort((a: Task, b: Task) =>
-          a.description.localeCompare(b.description)
-        )
+          a.description.localeCompare(b.description),
+        ),
       );
     } catch (error) {
       console.error(error);
@@ -140,7 +151,9 @@ function App() {
 
   // Filter tasks based on selected sprint (using id_Sprint)
   const filteredTasks =
-    selectedSprint === "all" ? tasks : tasks.filter((task) => task.id_Sprint === selectedSprint);
+    selectedSprint === "all"
+      ? tasks
+      : tasks.filter((task) => task.id_Sprint === selectedSprint);
 
   return (
     <div className="flex flex-col">
@@ -160,7 +173,9 @@ function App() {
                 setLoading={setLoading}
                 // Use the selected sprint if not "all", otherwise default to the first sprint if available
                 sprintId={
-                  selectedSprint === "all" ? (sprints[0]?.id_Sprint || 0) : selectedSprint
+                  selectedSprint === "all"
+                    ? sprints[0]?.id_Sprint || 0
+                    : selectedSprint
                 }
                 addTask={handleAddTask}
               />
@@ -181,7 +196,12 @@ function App() {
 
               <h3>Filter by Sprint</h3>
               <FormControl
-                sx={{ width: "30%", backgroundColor: "primary.main", color: "white", margin: "10px" }}
+                sx={{
+                  width: "30%",
+                  backgroundColor: "primary.main",
+                  color: "white",
+                  margin: "10px",
+                }}
               >
                 <InputLabel id="sprint-select-label"></InputLabel>
                 <Select
@@ -189,7 +209,9 @@ function App() {
                   labelId="sprint-select-label"
                   value={selectedSprint}
                   label="Sprint"
-                  onChange={(e) => setSelectedSprint(e.target.value as number | "all")}
+                  onChange={(e) =>
+                    setSelectedSprint(e.target.value as number | "all")
+                  }
                 >
                   <MenuItem value="all">All Sprints</MenuItem>
                   {sprints.map((sprint) => (
@@ -212,7 +234,12 @@ function App() {
           </div>
         )}
 
-        <KpiModal tasks={tasks} open={showStats} onClose={handleCloseStats} users={users}  />
+        <KpiModal
+          tasks={tasks}
+          open={showStats}
+          onClose={handleCloseStats}
+          users={users}
+        />
       </div>
     </div>
   );

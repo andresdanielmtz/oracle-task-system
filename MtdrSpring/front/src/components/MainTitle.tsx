@@ -10,7 +10,7 @@ const MainTitle = ({ title }: { title: string }) => {
         color: "#000",
         fontFamily: "Arial, sans-serif",
         fontSize: "1.5rem",
-        opacity: 0.75, 
+        opacity: 0.75,
       }}
     >
       {title}
