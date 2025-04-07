@@ -1,39 +1,40 @@
-import { defineConfig } from "eslint/config";
-import globals from "globals";
+import eslintPluginReact from "eslint-plugin-react";
+import eslintPluginReactHooks from "eslint-plugin-react-hooks";
 import js from "@eslint/js";
-import tseslint from "typescript-eslint";
-import pluginReact from "eslint-plugin-react";
+import globals from "globals";
 
-export default defineConfig(
-  [
-    { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
-    {
-      files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
-      languageOptions: { globals: globals.browser },
-    },
-    {
-      files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
-      plugins: { js },
-      extends: ["js/recommended"],
-    },
-    tseslint.configs.recommended,
-    pluginReact.configs.flat.recommended,
-  ],
+export default [
   {
+    ignores: ["dist/**", "build/**", "node_modules/**"],
+  },
+  {
+    files: ["**/*.js", "**/*.jsx"],
+    languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: "module",
+      globals: {
+        ...globals.browser,
+        ...globals.es2021,
+      },
+    },
+    plugins: {
+      react: eslintPluginReact,
+      "react-hooks": eslintPluginReactHooks,
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      ...eslintPluginReact.configs.recommended.rules,
+      ...eslintPluginReactHooks.configs.recommended.rules,
+
+      // Custom rules
+      "react/react-in-jsx-scope": "off", // React 17+ JSX transform
+      "react/prop-types": "off", // optional, if not using PropTypes
+      "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    },
     settings: {
       react: {
         version: "detect",
       },
     },
-    rules: {
-      "react/react-in-jsx-scope": "off",
-      "react/jsx-filename-extension": [
-        1,
-        { extensions: [".js", ".jsx", "ts", "tsx"] },
-      ],
-      "no-ternary": "off",
-      "no-unused-expressions": "off",
-      "react/prop-types": "off",
-    },
-  }
-);
+  },
+];

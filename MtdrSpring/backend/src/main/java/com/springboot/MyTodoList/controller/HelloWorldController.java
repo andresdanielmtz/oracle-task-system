@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * HelloWorldController class
- * Simple controller to test the application
+ * Default controller.
+ * Used for testing purposes.
  */
 
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/")
 public class HelloWorldController {
     @GetMapping
     public String helloWorld() {
